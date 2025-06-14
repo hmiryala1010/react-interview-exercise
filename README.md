@@ -1,57 +1,140 @@
-# Hello Aspiring Applicant!
+## School Data Finder – CharacterStrong
 
-This coding exercise is meant to allow you to demonstrate creative problem solving and modern web development understanding. Feel free to stretch the boundaries of the prompt to showcase your personal preferences and skills. 
+**Live Demo:** 
+https://hmiryala1010.github.io/react-interview-exercise/
+**Repository:** 
+https://github.com/hmiryala1010/react-interview-exercise
 
-- Add any npm modules you may need for best practices
-- Make any changes to this repository as you see fit
-- Use comments to critique and guide code review
+---
 
-## Overview of this repository
+## Project Overview
 
-- [Vite](https://vitejs.dev/guide/) Typescript React base
-- [Chakra-UI](https://chakra-ui.com/docs/principles) interface styling (feel free to replace with your favorite UI)
-- [Pretty resolver](tsconfig.paths.json), aliased modules for readability: `import Home from "@components/Home"`
-- [Github Actions](.github/workflows/push.yaml) to build and deploy this project to Github Pages (creates `gh-pages` branch)
+School Data Finder allows educators to search U.S. school districts, explore schools within each district, and view them on Google Maps.  
 
-### Getting Started
+---
 
-1. Extract the repository `unzip react-interview-exercise`
-2. Install dependencies `cd react-interview-exercise && npm i`
-3. Run local development server `npm run dev`
-4. Navigate to http://localhost:3000
-5. Follow the Prompt
-7. Create a new private Github repository. Please invite @wallstead, @derek-cs, @3103ski, and @chrismochinski
-8. Initialize and push to Github `git init` `git origin add your-repo-url` `git push origin main`
+## Tech Stack
 
-## Prompt
+* **React 18 + TypeScript 5 + Vite** – fast development and modern build tooling
+* **Chakra UI + Emotion + Sass** – styling with CharacterStrong-inspired theme
+* **Framer Motion** – smooth component transitions
+* **Google Maps API (@react-google-maps/api)** – displays schools on an interactive map
+* **React Icons + Path Aliases** – icon support and clean import paths
+* **GitHub Actions + Node 16** – automated CI/CD to GitHub Pages
 
-The goal of this exercise is to build a prototype utility that gives users ability to search and view school district information from [NCES + ArcGIS apis](https://data-nces.opendata.arcgis.com/datasets/nces::private-school-locations-current/api). See [this dataset and others](https://data-nces.opendata.arcgis.com/datasets/school-district-characteristics-2019-20/explore). The api methods are already [implemented for you in this repository](src/utils/nces.ts), your objective is to create an interactive interface to filter and view the selected data. 
+---
 
-- Push all your changes to Github
-    - Looking for semi-descriptive commit messages
-- Working out of [Home.tsx](/src/components/Home.tsx):
-    - Add the needed React `useEffect` statements for district and school searching
-    - Create the UX around these 2 functions, utilize search inputs, lists, and a view container
-    - District and School selection functionality, display a list, then when selected show more information
+## Project Structure
 
-### Considerations
+```
+src/
+├─ App.tsx
+├─ favicon.webp  logo192.png  logo512.png
+├─ main.tsx      vite-env.d.ts  index.scss
+├─ components/
+│  ├─ Header.tsx  Home.tsx
+│  ├─ design/         → Card, Glob.tsx (with SCSS)
+│  ├─ district/       → DistrictItem, DistrictList, index.ts
+│  ├─ school/         → MapView, SchoolItem, SchoolList, index.ts
+│  └─ search/         → SearchInput.tsx, index.ts
+├─ theme/
+│  ├─ index.ts
+│  └─ override/       → Button.ts, Input.ts, index.ts
+└─ utils/             → maps.ts, nces.ts
+```
 
-- If there is a requirement for more components, create them for optimal code readability and performance
-- If something should be dramatically changed in the setup or organization of this repository, do so or document your perspective
-- Most importantly, have fun! Express your passion for web development, we are lifelong learners and should enjoy tackling difficult challenges
+---
+
+## Getting Started
+
+```bash
+npm install        # install dependencies
+npm run dev        # start local server at http://localhost:3000
+npm run build       # production build
+npm run serve       # preview production
+```
+
+---
+
+## Key Features
+
+* **District search** with a center-aligned search bar
+* **School list** displayed after selecting a district
+* **Google Maps integration** showing school markers
+* **District and school-level search filters**
+* **Name-only validation**: invalid input (numbers/special characters) triggers an alert
+* **Contextual alerts**: empty results, errors, and loading states
+* **"More Details" buttons**: display full data for any district or school
+* **Responsive layout** with keyboard-friendly navigation
+
+---
+
+## Design & Architectural Choices
+
+* Used CharacterStrong’s **color palette and styling** for buttons and inputs
+* Applied **two-panel layout** for better data visibility (districts left, schools right)
+* Introduced **two-stage search** to reduce API calls and improve clarity
+* Avoided Redux – **hook-based state** is sufficient for this app
+* Secured the API key with `.env` and GitHub Secrets
+* Enabled **automated CI/CD** with GitHub Actions
+
+---
+
+## Google Maps API Key
+
+To integrate Google Maps securely:
+
+* Revoked the original public key to prevent misuse
+* Created a **new restricted API key** in Google Cloud Console
+
+  * Restriction: **HTTP referrers** – limited to `localhost` and the deployed domain
+  * API access: **Maps JavaScript API** only
+* Saved the key in a `.env` file at the project root:
+
+  ```env
+  VITE_GOOGLE_MAPS_KEY=your-api-key
+  ```
+* Added `.env` to `.gitignore` to keep the key private
+* Used `import.meta.env.VITE_GOOGLE_MAPS_KEY` in `maps.ts` to load the key
+* Added the key as a **GitHub Actions secret** (`VITE_GOOGLE_MAPS_KEY`) for deployment
+
+---
+
+## Deployment (GitHub Pages + GitHub Actions)
+
+I deployed the app using GitHub Pages with automated deployment through GitHub Actions:
+
+* Created a `.env` file for the map key and excluded it using `.gitignore`
+* Added the key as a secret (`VITE_GOOGLE_MAPS_KEY`) in the GitHub repository
+* Updated the GitHub Actions workflow (`.github/workflows/push.yaml`) with:
+
+  ```yaml
+  env:
+    VITE_GOOGLE_MAPS_KEY: ${{ secrets.VITE_GOOGLE_MAPS_KEY }}
+  ```
+* The workflow builds the app and deploys the `dist` folder to the `gh-pages` branch using `JamesIves/github-pages-deploy-action`
+* Updated `vite.config.ts` to set the correct `base` path for deployment
+* Enabled GitHub Pages from the `gh-pages` branch in repository settings
+
+Now, every push to `main` automatically triggers a deployment.
+
+---
 
 ## Extra Credit
 
-- Please enable Github Pages and Github Actions in your Fork and update the url in your README.md
-    - If your repository is not named `react-interview-exercise` you must update [vite.config.ts](vite.config.ts) "base" path
-    - Especially if you are applying for a Fullstack position, we want to see your ability to deploy an app.
-    - Unless you have github pro, you may need to make your repository public to enable Github Pages. That's fine, just please remember to make it private again after the interview process.
-- CharacterStrong is design-forward, with a strong focus on creating a user experience that supports teachers and students alike. We use animation and interactivity where it adds clarity or engagement. Our UX reflects the same clean, accessible, and thoughtful design seen on [characterstrong.com](https://characterstrong.com), ensuring the platform feels intuitive, supportive, and aligned with our educational mission.
-- There are known issues within this repository. If you see something you don't like, add a comment/fix them!
-- If you want to add a package, feel free and be ready to explain why you added it.
-- Can you display school(s) on a Google Map? (API Key in [maps.ts](src/utils/maps.ts) is outdated, please provide a new one)
-- Are there any other [NCES APIs](https://data-nces.opendata.arcgis.com/search?tags=nces) that might be useful for this tool?
+* Enabled GitHub Pages + GitHub Actions deployment
+* Implemented Google Maps integration to show school locations
+* Designed a clean, responsive UI with animations
+* Used Chakra UI and custom theming for a CharacterStrong-aligned look
+* Added contextual alerts, “More Details” panels, and map-based views
+* Explored additional NCES APIs for future enhancements (e.g., demographics, enrollment, funding data)
 
-## What Happens Next?
 
-CharacterStrong tech team members will review your repo, share the built interface with interested colleagues, and reach out to you so we can review your submission and ask questions.
+
+## Trade-offs & Future Improvements
+
+* Add search suggestion/autocomplete for district and school names to improve user experience and reduce invalid queries
+* Implement **dark mode** toggle for UI flexibility
+
+---
+ 
