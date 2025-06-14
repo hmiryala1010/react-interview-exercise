@@ -173,7 +173,7 @@
 // src/components/search/SearchInput.tsx
 // src/components/search/SearchInput.tsx
 // Rounded search bar with left search icon and clear-text X icon.
-
+// src/components/search/SearchInput.tsx
 import React from 'react';
 import {
   InputGroup,
@@ -201,7 +201,7 @@ const SearchInput: React.FC<Props> = ({
   onChange,
   onSearch,
 }) => {
-  const border  = useColorModeValue('brand.500', 'brand.500');
+  const border  = useColorModeValue('green.300', 'green.300');
   const focus   = useColorModeValue('brand.700', 'brand.300');
   const iconClr = 'gray.600';
 
@@ -217,9 +217,9 @@ const SearchInput: React.FC<Props> = ({
         pr="2.5rem"
         value={value}
         placeholder={placeholder}
-        border="2px solid"
+        border="3px solid"
         borderColor={border}
-        borderRadius="lg"
+        borderRadius="full"
         color={iconClr}
         _placeholder={{ color: 'gray.500' }}
         _hover={{ borderColor: focus }}
@@ -233,18 +233,26 @@ const SearchInput: React.FC<Props> = ({
         }}
       />
 
-      {/* right clear (X) icon */}
+      {/* right clear (X) icon with green circle */}
       <InputRightElement h="full">
         {value && (
           <IconButton
             aria-label="Clear"
-            variant="ghost"
-            size="sm"
             icon={<FiX />}
-            color={iconClr}
+            size="xs"
             onClick={() => onChange('')}
-            _hover={{ bg: 'transparent', color: focus }}
-            _active={{ bg: 'transparent' }}
+            color={iconClr}
+            variant="ghost"
+            borderRadius="full"
+            border="2px solid"
+            borderColor={iconClr}
+            p="1.5"
+            _hover={{
+              bg: 'brand.100',
+              borderColor: focus,
+              color: focus,
+            }}
+            _active={{ bg: 'brand.50' }}
           />
         )}
       </InputRightElement>
@@ -253,4 +261,4 @@ const SearchInput: React.FC<Props> = ({
 };
 
 export default SearchInput;
-export type { Props as SearchInputProps }; 
+export type { Props as SearchInputProps };
