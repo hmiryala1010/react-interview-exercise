@@ -94,9 +94,6 @@ To integrate Google Maps securely:
   ```env
   VITE_GOOGLE_MAPS_KEY=your-api-key
   ```
-* Added `.env` to `.gitignore` to keep the key private
-* Used `import.meta.env.VITE_GOOGLE_MAPS_KEY` in `maps.ts` to load the key
-* Added the key as a **GitHub Actions secret** (`VITE_GOOGLE_MAPS_KEY`) for deployment
 
 ---
 
@@ -104,8 +101,9 @@ To integrate Google Maps securely:
 
 I deployed the app using GitHub Pages with automated deployment through GitHub Actions:
 
-* Created a `.env` file for the map key and excluded it using `.gitignore`
-* Added the key as a secret (`VITE_GOOGLE_MAPS_KEY`) in the GitHub repository
+* Added `.env` to `.gitignore` to keep the key private
+* Used `import.meta.env.VITE_GOOGLE_MAPS_KEY` in `maps.ts` to load the key
+* Added the key as a **GitHub Actions secret** (`VITE_GOOGLE_MAPS_KEY`) for deployment
 * Updated the GitHub Actions workflow (`.github/workflows/push.yaml`) with:
 
   ```yaml

@@ -50,6 +50,10 @@ export default function Home() {
   const [schoolAlert, setSchoolAlert] = useState<AlertData>(null);
   const [loading, setLoading] = useState(false);
 
+  React.useEffect(() => {
+    searchSchoolDistricts('a').catch(() => { });
+  }, []);
+
   /* district search */
   const fetchDistricts = async () => {
     const query = dq.trim();
@@ -90,10 +94,10 @@ export default function Home() {
       res.length
         ? setSchoolAlert(null)
         : setSchoolAlert({
-            status: 'warning',
-            title: 'No schools found',
-            desc: 'There are no schools in this district.',
-          });
+          status: 'warning',
+          title: 'No schools found',
+          desc: 'There are no schools in this district.',
+        });
     } catch {
       setSchoolAlert({ status: 'error', title: 'Load failed', desc: 'Could not fetch schools for this district.' });
     } finally {
