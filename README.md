@@ -9,7 +9,8 @@ https://github.com/hmiryala1010/react-interview-exercise
 
 ## Project Overview
 
-School Data Finder allows educators to search U.S. school districts, explore schools within each district, and view them on Google Maps.  
+**School Data Finder** is a modern web application that enables educators to search U.S. school districts, view schools within each selected district, and explore their locations on an interactive Google Map. Users can filter schools by name, receive real-time alerts for invalid input or empty results, and interact with a clean, responsive interface built using React, TypeScript, Chakra UI, and Google Maps API. The app is designed for fast, intuitive exploration of national school data.
+
 
 ---
 
@@ -74,6 +75,7 @@ npm run serve       # preview production
 * Used CharacterStrong’s **color palette and styling** for buttons and inputs
 * Applied **two-panel layout** for better data visibility (districts left, schools right)
 * Introduced **two-stage search** to reduce API calls and improve clarity
+* Implemented pagination for district and school lists – 5 items per page for cleaner navigation
 * Avoided Redux – **hook-based state** is sufficient for this app
 * Secured the API key with `.env` and GitHub Secrets
 * Enabled **automated CI/CD** with GitHub Actions
