@@ -1,48 +1,133 @@
-import React from 'react';
-import { Box, List, Text, Divider } from "@chakra-ui/react";
-import { NCESSchoolFeatureAttributes } from "@utils/nces";
-import SchoolItem from './SchoolItem';
-import MapView from './MapView';
+// import React from 'react';
+// import { Box, List, Text } from "@chakra-ui/react";
+// import { NCESSchoolFeatureAttributes } from "@utils/nces";
+// import SchoolItem from './SchoolItem';
+// import MapView from './MapView';
+
+// interface SchoolListProps {
+//     schools: NCESSchoolFeatureAttributes[];
+//     selectedSchool: NCESSchoolFeatureAttributes | null;
+//     onSelect: (school: NCESSchoolFeatureAttributes) => void;
+//     showMap?: boolean; // Add this optional prop
+// }
+
+// const SchoolList: React.FC<SchoolListProps> = ({
+//     schools,
+//     selectedSchool,
+//     onSelect,
+//     showMap = true // Default to true if not provided
+// }) => {
+//     if (!schools.length) return null;
+
+//     return (
+//         <Box>
+//             {showMap && (
+//                 <MapView 
+//                     schools={schools}
+//                     selectedSchool={selectedSchool}
+//                 />
+//             )}
+
+//             <Text fontSize="lg" mt={4} mb={2}>
+//                 Found {Number(schools.length)} schools
+//             </Text>
+
+//             <List spacing={3}>
+//                 {schools.map(school => (
+//                     <SchoolItem
+//                         key={school.NCESSCH}
+//                         school={school}
+//                         isSelected={selectedSchool?.NCESSCH === school.NCESSCH}
+//                         onClick={() => onSelect(school)}
+//                     />
+//                 ))}
+//             </List>
+//         </Box>
+//     );
+// };
+
+// export default SchoolList;
+
  
-// Props for the school list
-interface SchoolListProps {
-    schools: NCESSchoolFeatureAttributes[];
-    selectedSchool: NCESSchoolFeatureAttributes | null;
-    onSelect: (school: NCESSchoolFeatureAttributes) => void;
+// src/components/school/SchoolList.tsx
+// Paginated list: 5 schools / page, inline “View Map” toggle.
+// src/components/school/SchoolList.tsx
+/**
+ * CharacterStrong – SchoolList
+ * • Removes green focus outline.
+ * • Adds wider spacing so scaled SchoolItem stays inside list.
+ */
+
+import React, { useMemo, useState, useEffect } from 'react';
+import {
+  VStack, Text, HStack, IconButton, Icon, List,
+} from '@chakra-ui/react';
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { NCESSchoolFeatureAttributes as Sch } from '@utils/nces';
+import SchoolItem from './SchoolItem';
+
+const ITEMS = 5;
+
+interface Props {
+  schools: Sch[];
 }
 
-const SchoolList = ({ schools, selectedSchool, onSelect }: SchoolListProps) => {
-    // Don't render anything if no schools
-    if (!schools.length) return null;
+const sid = (s: Sch) => s.NCESSCH ?? `${s.NAME}-${s.LAT}-${s.LON}`;
 
-    return (
-        <Box>
-            {/* Map view on top */}
-            <MapView 
-                schools={schools}
-                selectedSchool={selectedSchool}
-            />
+const SchoolList: React.FC<Props> = ({ schools }) => {
+  const [page, setPage] = useState(1);
 
-            <Divider my={4} />
+  useEffect(() => setPage(1), [schools]);
 
-            {/* Schools count */}
-            <Text mb={4}>
-                Found {schools.length} schools
-            </Text>
+  if (!schools.length) return null;
 
-            {/* List of schools */}
-            <List spacing={3}>
-                {schools.map(school => (
-                    <SchoolItem
-                        key={school.NCESSCH}
-                        school={school}
-                        isSelected={school.NCESSCH === selectedSchool?.NCESSCH}
-                        onClick={() => onSelect(school)}
-                    />
-                ))}
-            </List>
-        </Box>
-    );
+  const total = Math.ceil(schools.length / ITEMS);
+  const pageSchools = useMemo(
+    () => schools.slice((page - 1) * ITEMS, page * ITEMS),
+    [page, schools],
+  );
+
+  return (
+    <VStack align="stretch" spacing={4}>
+      <Text fontSize="lg" fontWeight="medium">
+        Found {schools.length} schools
+      </Text>
+
+      <List spacing={5} px={3}>
+        {pageSchools.map((s) => (
+          <SchoolItem key={sid(s)} school={s} />
+        ))}
+      </List>
+
+      {total > 1 && (
+        <HStack pt={2} justify="space-between">
+          <IconButton
+            aria-label="Previous page"
+            icon={<Icon as={FiChevronLeft} />}
+            size="sm"
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            isDisabled={page === 1}
+            variant="ghost"
+            _focus={{ boxShadow: 'none' }}
+            _focusVisible={{ boxShadow: 'none' }}
+          />
+          <Text fontSize="sm">
+            {page} / {total}
+          </Text>
+          <IconButton
+            aria-label="Next page"
+            icon={<Icon as={FiChevronRight} />}
+            size="sm"
+            onClick={() => setPage((p) => Math.min(total, p + 1))}
+            isDisabled={page === total}
+            variant="ghost"
+            _focus={{ boxShadow: 'none' }}
+            _focusVisible={{ boxShadow: 'none' }}
+          />
+        </HStack>
+      )}
+    </VStack>
+  );
 };
 
 export default SchoolList;
