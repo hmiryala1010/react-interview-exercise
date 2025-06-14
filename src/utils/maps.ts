@@ -1,2 +1,1 @@
-export const googleMapsKey = "AIzaSyAp-VNb9G5EQ-S_o0WhwtJ3vAF8Raq-Yd4"
- 
+export const googleMapsKey = import.meta.env.VITE_GOOGLE_MAPS_KEY || "";
