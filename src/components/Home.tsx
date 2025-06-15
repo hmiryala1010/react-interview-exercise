@@ -50,7 +50,7 @@ export default function Home() {
   const [schoolAlert, setSchoolAlert] = useState<AlertData>(null);
   const [loading, setLoading] = useState(false);
 
-  
+
   /* district search */
   const fetchDistricts = async () => {
     const query = dq.trim();
@@ -118,7 +118,7 @@ export default function Home() {
 
   /* layout */
   return (
-    <Box h="100vh" bg="gray.50" overflow="hidden" display="flex" flexDirection="column">
+    <Box h="calc(100vh / 0.9)" bg="gray.50" overflow="hidden" display="flex" flexDirection="column" style={{ zoom: '90%' }} >
       {/* header */}
       <Center pt="100px" pb={6} flexShrink={0}>
         <VStack spacing={4} maxW="600px" w="full">
@@ -132,9 +132,9 @@ export default function Home() {
               value={dq}
               onChange={(v) => {
                 setDQ(v);
-                setDistAlert(null); // reset alert
+                setDistAlert(null);
                 if (v.trim() === '') {
-                  // cleared → wipe everything
+                  setSQ('');
                   setDists([]);
                   setSelDist(null);
                   setSchools([]);

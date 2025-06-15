@@ -63,13 +63,10 @@ const SearchInput: React.FC<Props> = ({
           <IconButton
             aria-label="Clear"
             icon={<FiX />}
-            size="xs"
+            size="sm"
             onClick={() => onChange('')}
             color={iconClr}
             variant="ghost"
-            borderRadius="full"
-            border="2px solid"
-            borderColor={iconClr}
             p="1.5"
             _hover={{
               bg: 'brand.100',

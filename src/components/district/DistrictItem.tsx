@@ -1,12 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import {
   Box,
-  VStack,
+  HStack,
   Text,
   Button,
   Collapse,
   SimpleGrid,
   useToken,
+  Flex,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { NCESDistrictFeatureAttributes } from '@utils/nces';
@@ -31,7 +32,7 @@ const DistrictItem: React.FC<Props> = ({ district, isSelected, onClick }) => {
   return (
     <MotionBox
       as="li"
-      p={2}
+      p={3.5}
       border="1px"
       borderColor={isSelected ? 'brand.500' : 'gray.200'}
       borderRadius="md"
@@ -44,80 +45,82 @@ const DistrictItem: React.FC<Props> = ({ district, isSelected, onClick }) => {
       animate={{ opacity: 1, y: 0 }}
       onClick={onClick}
     >
-      <VStack align="stretch" spacing={2}>
-        <Text fontWeight="bold" fontSize="lg" color="brand.700">
-          {district.NAME || 'Unnamed District'}
-        </Text>
+      <HStack justify="space-between" align="flex-start">
+        <Flex align="center" justify="space-between" w="full">
+          <Box lineHeight="short">
 
-        <Text color="brand.900">
-          {district.LCITY}, {district.LSTATE}
-        </Text>
+            <Text fontWeight="bold" fontSize="lg" color="brand.700" mb={1}>
+              {district.NAME || 'Unnamed District'}
+            </Text>
 
-        <Button
-          size="sm"
-          variant="outline"
-          borderRadius="full"
-          fontWeight="normal"
-          borderColor={border}
-          color="black"
-          bg={buttonBg}
-          _hover={{
-            bg: open ? 'green.300' : 'green.50',
-            borderColor: 'green.500',
-          }}
-          _focus={{
-            bg: buttonBg,
-            borderColor: border,
-            boxShadow: 'none',
-          }}
-          _active={{
-            bg: buttonBg,
-            borderColor: border,
-            boxShadow: 'none',
-          }}
-          onClick={(e) => {
-            e.stopPropagation();
-            setOpen((o) => !o);
-          }}
-          alignSelf="flex-start"
-          aria-expanded={open}
-          aria-controls={collapseId}
-        >
-          {open ? 'Hide Details' : 'More Details'}
-        </Button>
+            <Text fontSize="sm" color="brand.900">
+              {district.LCITY}, {district.LSTATE}
+            </Text>
+          </Box>
+          <Button
+            size="sm"
+            variant="outline"
+            borderRadius="full"
+            fontWeight="normal"
+            borderColor={border}
+            color="black"
+            bg={buttonBg}
+            _hover={{
+              bg: open ? 'green.300' : 'green.50',
+              borderColor: 'green.500',
+            }}
+            _focus={{
+              bg: buttonBg,
+              borderColor: border,
+              boxShadow: 'none',
+            }}
+            _active={{
+              bg: buttonBg,
+              borderColor: border,
+              boxShadow: 'none',
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpen((o) => !o);
+            }}
+            aria-expanded={open}
+            aria-controls={collapseId}
+          >
+            {open ? 'Hide Details' : 'More Details'}
+          </Button>
+        </Flex>
+      </HStack>
+      {open && (
+        <Collapse in={open} animateOpacity>
+          <Box pt={2} id={collapseId}>
+            <SimpleGrid columns={2} spacingY={1} fontSize="sm">
+              <Text fontWeight="medium">District ID:</Text>
+              <Text>{district.LEAID}</Text>
 
-        {open && (
-          <Collapse in={open} animateOpacity>
-            <Box pt={2} id={collapseId}>
-              <SimpleGrid columns={2} spacingY={1} fontSize="sm">
-                <Text fontWeight="medium">District ID:</Text>
-                <Text>{district.LEAID}</Text>
+              <Text fontWeight="medium">Street:</Text>
+              <Text>{district.LSTREE || '—'}</Text>
 
-                <Text fontWeight="medium">Street:</Text>
-                <Text>{district.LSTREE || '—'}</Text>
+              <Text fontWeight="medium">ZIP:</Text>
+              <Text>{district.LZIP || '—'}</Text>
 
-                <Text fontWeight="medium">ZIP:</Text>
-                <Text>{district.LZIP || '—'}</Text>
+              <Text fontWeight="medium">County:</Text>
+              <Text>{district.NMCNTY15 || '—'}</Text>
 
-                <Text fontWeight="medium">County:</Text>
-                <Text>{district.NMCNTY15 || '—'}</Text>
+              <Text fontWeight="medium">CBSA Code:</Text>
+              <Text>{district.CBSA15 || '—'}</Text>
 
-                <Text fontWeight="medium">CBSA Code:</Text>
-                <Text>{district.CBSA15 || '—'}</Text>
+              <Text fontWeight="medium">Latitude:</Text>
+              <Text>{district.LAT1516?.toFixed(4) ?? '—'}</Text>
 
-                <Text fontWeight="medium">Latitude:</Text>
-                <Text>{district.LAT1516?.toFixed(4) ?? '—'}</Text>
+              <Text fontWeight="medium">Longitude:</Text>
+              <Text>{district.LON1516?.toFixed(4) ?? '—'}</Text>
+            </SimpleGrid>
+          </Box>
+        </Collapse>
+      )}
 
-                <Text fontWeight="medium">Longitude:</Text>
-                <Text>{district.LON1516?.toFixed(4) ?? '—'}</Text>
-              </SimpleGrid>
-            </Box>
-          </Collapse>
-        )}
-      </VStack>
     </MotionBox>
   );
 };
 
 export default DistrictItem;
- 

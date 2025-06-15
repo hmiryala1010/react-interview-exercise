@@ -6,6 +6,7 @@ import {
   Button,
   Collapse,
   SimpleGrid,
+  Flex,
 } from '@chakra-ui/react';
 import MapView from './MapView';
 import { NCESSchoolFeatureAttributes as Sch } from '@utils/nces';
@@ -30,43 +31,45 @@ const SchoolItem: React.FC<Props> = ({ school }) => {
       borderColor="gray.200"
       borderRadius="md"
       _hover={{ bg: 'gray.50' }}
-      mb={3}
-      minH="110px"
+      mb={2}
     >
       <VStack align="stretch" spacing={2}>
-        <Text fontWeight="bold" fontSize="lg">
-          {school.NAME}
-        </Text>
-        <Text color="gray.600">{addr(school)}</Text>
+        <Flex align="center" justify="space-between" w="full">
+          <Box lineHeight="short">
 
-        <Button
-          size="sm"
-          variant="outline"
-          borderColor="blackAlpha.400"
-          borderRadius="full"
-          color="black"
-          fontWeight="normal"
-          bg={open ? 'green.300' : undefined}
-          _hover={{
-            bg: open ? 'green.300' : 'green.50',
-            borderColor: 'green.300',
-          }}
-          _focus={{
-            bg: open ? 'green.300' : undefined,
-            borderColor: open ? 'green.300' : 'blackAlpha.400',
-            boxShadow: 'none',
-          }}
-          _active={{
-            bg: open ? 'green.300' : undefined,
-            borderColor: open ? 'green.300' : 'blackAlpha.400',
-            boxShadow: 'none',
-          }}
-          onClick={() => setOpen((o) => !o)}
-          alignSelf="flex-start"
-        >
-          {open ? 'Hide Details' : 'More Details'}
-        </Button>
+            <Text fontWeight="bold" fontSize="lg">
+              {school.NAME}
+            </Text>
+            <Text fontSize="xs" color="gray.600">{addr(school)}</Text>
+          </Box>
 
+          <Button
+            size="sm"
+            variant="outline"
+            borderColor="blackAlpha.400"
+            borderRadius="full"
+            color="black"
+            fontWeight="normal"
+            bg={open ? 'green.300' : undefined}
+            _hover={{
+              bg: open ? 'green.300' : 'green.50',
+              borderColor: 'green.300',
+            }}
+            _focus={{
+              bg: open ? 'green.300' : undefined,
+              borderColor: open ? 'green.300' : 'blackAlpha.400',
+              boxShadow: 'none',
+            }}
+            _active={{
+              bg: open ? 'green.300' : undefined,
+              borderColor: open ? 'green.300' : 'blackAlpha.400',
+              boxShadow: 'none',
+            }}
+            onClick={() => setOpen((o) => !o)}
+          >
+            {open ? 'Hide Details' : 'More Details'}
+          </Button>
+        </Flex>
         {open && (<Collapse in={open} animateOpacity>
           <Box pt={2}>
             {/* attribute table */}
