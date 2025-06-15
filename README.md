@@ -135,6 +135,7 @@ Now, every push to `main` automatically triggers a deployment.
 
 * Add search suggestion/autocomplete for district and school names to improve user experience and reduce invalid queries
 * Implement **dark mode** toggle for UI flexibility
+* Make the layout fully responsive across all devices for optimal usability on phones, tablets, and desktops
 
 ---
  
