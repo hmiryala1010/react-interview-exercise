@@ -44,8 +44,9 @@ const DistrictList: React.FC<DistrictListProps> = ({
     [onSelect],
   );
 
-  if (!districts.length) return null;
-
+  if (districts.length === 0) {
+    return null;
+  }
   return (
     <VStack ref={wrapperRef} align="stretch" spacing={4}>
       <Text fontSize="lg" fontWeight="medium">
@@ -73,7 +74,7 @@ const DistrictList: React.FC<DistrictListProps> = ({
             isDisabled={page === 1}
             variant="ghost"
             _focus={{ boxShadow: 'none' }}
-            _focusVisible={{ boxShadow: 'none' }}
+            _focusVisible={{ boxShadow: 'outline' }}
           />
           <Text fontSize="sm">
             {page} / {totalPages}
@@ -95,3 +96,4 @@ const DistrictList: React.FC<DistrictListProps> = ({
 };
 
 export default DistrictList;
+ 

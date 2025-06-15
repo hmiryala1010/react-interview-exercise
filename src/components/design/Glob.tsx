@@ -3,20 +3,15 @@ import { theme } from "@theme/index";
 import "./Glob.scss";
 
 interface GlobProps {
-  /** Optional React nodes to render inside the wrapper */
   children?: ReactNode;
 
-  /** Blob colour (defaults to brand blue) */
   color?: string;
 
-  /** [width,height] percentages */
   size?: string[];
 
-  /** percentages for each inner glob */
   globSizes?: number[][];
   globPositions?: number[][];
 
-  /** positioning */
   top?: string;
   bottom?: string;
   left?: string;
@@ -52,7 +47,7 @@ const Glob: React.FC<GlobProps> = ({
   rotate,
 }) => (
   <>
-    {/* moving blob container */}
+    { }
     <div
       className="blob"
       style={{
@@ -66,7 +61,7 @@ const Glob: React.FC<GlobProps> = ({
         transform: rotate ? `rotate(${rotate}deg)` : undefined,
       }}
     >
-      {/* three inner globs */}
+      { }
       {globSizes.map(([w, h], i) => (
         <div
           key={i}
@@ -84,11 +79,11 @@ const Glob: React.FC<GlobProps> = ({
           }}
         />
       ))}
-      {/* render any children passed in */}
+      { }
       {children}
     </div>
 
-    {/* filters (unchanged) */}
+    { }
     <svg className="glob-svg" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <filter id="goo">

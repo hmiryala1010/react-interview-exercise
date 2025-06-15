@@ -1,12 +1,12 @@
 import React, { PropsWithChildren } from "react";
 import { Box, useStyleConfig } from "@chakra-ui/react";
 
-export const CardTheme = { /* …unchanged… */ };
+export const CardTheme = {  };
 
 type CardVariants = "rounded" | "smooth";
 
 type CardProps = PropsWithChildren<{
-  variant?: CardVariants;      // default handled by theme
+  variant?: CardVariants;       
   borderColor?: string;
 }>;
 

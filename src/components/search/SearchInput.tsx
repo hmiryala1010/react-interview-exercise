@@ -16,7 +16,7 @@ interface Props {
   onChange: (value: string) => void;
   onSearch: () => void;
   isLoading?: boolean;
-  buttonText?: string; // ignored, kept for compatibility
+  buttonText?: string;
 }
 
 const SearchInput: React.FC<Props> = ({
@@ -25,7 +25,7 @@ const SearchInput: React.FC<Props> = ({
   onChange,
   onSearch,
 }) => {
-  const border = useColorModeValue('green.300', 'green.300');
+  const border = 'green.300';
   const focus = useColorModeValue('brand.700', 'brand.300');
   const iconClr = 'gray.600';
 

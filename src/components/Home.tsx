@@ -50,10 +50,7 @@ export default function Home() {
   const [schoolAlert, setSchoolAlert] = useState<AlertData>(null);
   const [loading, setLoading] = useState(false);
 
-  React.useEffect(() => {
-    searchSchoolDistricts('a').catch(() => { });
-  }, []);
-
+  
   /* district search */
   const fetchDistricts = async () => {
     const query = dq.trim();

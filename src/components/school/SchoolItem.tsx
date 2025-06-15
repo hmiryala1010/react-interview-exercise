@@ -67,7 +67,7 @@ const SchoolItem: React.FC<Props> = ({ school }) => {
           {open ? 'Hide Details' : 'More Details'}
         </Button>
 
-        <Collapse in={open} animateOpacity>
+        {open && (<Collapse in={open} animateOpacity>
           <Box pt={2}>
             {/* attribute table */}
             <SimpleGrid columns={2} spacingY={1} fontSize="sm">
@@ -88,6 +88,7 @@ const SchoolItem: React.FC<Props> = ({ school }) => {
 
               <Text fontWeight="medium">Longitude:</Text>
               <Text>{school.LON?.toFixed(4) ?? '—'}</Text>
+
             </SimpleGrid>
 
             {/* map preview */}
@@ -103,6 +104,7 @@ const SchoolItem: React.FC<Props> = ({ school }) => {
             </Box>
           </Box>
         </Collapse>
+        )}
       </VStack>
     </Box>
   );

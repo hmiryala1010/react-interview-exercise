@@ -31,7 +31,8 @@ const MapView = ({ schools, selectedSchool }: MapViewProps) => {
           {valid.map((s) => (
             <Marker
               key={s.NCESSCH}
-              position={{ lat: s.LAT!, lng: s.LON! }}
+              position={{ lat: Number(s.LAT), lng: Number(s.LON) }}
+
               title={s.NAME ?? ''}
             />
           ))}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Box,
   VStack,
@@ -18,13 +18,15 @@ interface Props {
 }
 
 const MotionBox = motion(Box);
+const greenShadow = '0 2px 6px rgba(21,109,24,0.25)';
 
 const DistrictItem: React.FC<Props> = ({ district, isSelected, onClick }) => {
   const [open, setOpen] = useState(false);
-
-  // greens for list-item background / hover
   const [brand50, brand100] = useToken('colors', ['brand.50', 'brand.100']);
-  const greenShadow = '0 2px 6px rgba(21,109,24,0.25)';
+
+  const buttonBg = open ? 'green.300' : undefined;
+  const border = open ? 'green.300' : 'blackAlpha.400';
+  const collapseId = `district-details-${district.LEAID}`;
 
   return (
     <MotionBox
@@ -44,7 +46,7 @@ const DistrictItem: React.FC<Props> = ({ district, isSelected, onClick }) => {
     >
       <VStack align="stretch" spacing={2}>
         <Text fontWeight="bold" fontSize="lg" color="brand.700">
-          {district.NAME}
+          {district.NAME || 'Unnamed District'}
         </Text>
 
         <Text color="brand.900">
@@ -56,21 +58,21 @@ const DistrictItem: React.FC<Props> = ({ district, isSelected, onClick }) => {
           variant="outline"
           borderRadius="full"
           fontWeight="normal"
-          borderColor={open ? 'green.300' : 'blackAlpha.400'}
+          borderColor={border}
           color="black"
-          bg={open ? 'green.300' : undefined}
+          bg={buttonBg}
           _hover={{
             bg: open ? 'green.300' : 'green.50',
-            borderColor: 'green.300',
+            borderColor: 'green.500',
           }}
           _focus={{
-            bg: open ? 'green.300' : undefined,
-            borderColor: open ? 'green.300' : 'blackAlpha.400',
+            bg: buttonBg,
+            borderColor: border,
             boxShadow: 'none',
           }}
           _active={{
-            bg: open ? 'green.300' : undefined,
-            borderColor: open ? 'green.300' : 'blackAlpha.400',
+            bg: buttonBg,
+            borderColor: border,
             boxShadow: 'none',
           }}
           onClick={(e) => {
@@ -78,39 +80,44 @@ const DistrictItem: React.FC<Props> = ({ district, isSelected, onClick }) => {
             setOpen((o) => !o);
           }}
           alignSelf="flex-start"
+          aria-expanded={open}
+          aria-controls={collapseId}
         >
           {open ? 'Hide Details' : 'More Details'}
         </Button>
 
-        <Collapse in={open} animateOpacity>
-          <Box pt={2}>
-            <SimpleGrid columns={2} spacingY={1} fontSize="sm">
-              <Text fontWeight="medium">District ID:</Text>
-              <Text>{district.LEAID}</Text>
+        {open && (
+          <Collapse in={open} animateOpacity>
+            <Box pt={2} id={collapseId}>
+              <SimpleGrid columns={2} spacingY={1} fontSize="sm">
+                <Text fontWeight="medium">District ID:</Text>
+                <Text>{district.LEAID}</Text>
 
-              <Text fontWeight="medium">Street:</Text>
-              <Text>{district.LSTREE || '—'}</Text>
+                <Text fontWeight="medium">Street:</Text>
+                <Text>{district.LSTREE || '—'}</Text>
 
-              <Text fontWeight="medium">ZIP:</Text>
-              <Text>{district.LZIP || '—'}</Text>
+                <Text fontWeight="medium">ZIP:</Text>
+                <Text>{district.LZIP || '—'}</Text>
 
-              <Text fontWeight="medium">County:</Text>
-              <Text>{district.NMCNTY15 || '—'}</Text>
+                <Text fontWeight="medium">County:</Text>
+                <Text>{district.NMCNTY15 || '—'}</Text>
 
-              <Text fontWeight="medium">CBSA Code:</Text>
-              <Text>{district.CBSA15 || '—'}</Text>
+                <Text fontWeight="medium">CBSA Code:</Text>
+                <Text>{district.CBSA15 || '—'}</Text>
 
-              <Text fontWeight="medium">Latitude:</Text>
-              <Text>{district.LAT1516?.toFixed(4) ?? '—'}</Text>
+                <Text fontWeight="medium">Latitude:</Text>
+                <Text>{district.LAT1516?.toFixed(4) ?? '—'}</Text>
 
-              <Text fontWeight="medium">Longitude:</Text>
-              <Text>{district.LON1516?.toFixed(4) ?? '—'}</Text>
-            </SimpleGrid>
-          </Box>
-        </Collapse>
+                <Text fontWeight="medium">Longitude:</Text>
+                <Text>{district.LON1516?.toFixed(4) ?? '—'}</Text>
+              </SimpleGrid>
+            </Box>
+          </Collapse>
+        )}
       </VStack>
     </MotionBox>
   );
 };
 
 export default DistrictItem;
+ 

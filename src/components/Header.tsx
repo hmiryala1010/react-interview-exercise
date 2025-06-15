@@ -5,7 +5,7 @@ import Glob from "./design/Glob";
 import { theme } from "@theme/index";
 
 interface HeaderProps {
-  children?: ReactNode;   // ✅ declare type
+  children?: ReactNode;
 }
 
 const Header: React.FC<HeaderProps> = ({ children }) => (
