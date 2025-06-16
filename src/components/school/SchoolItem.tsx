@@ -103,7 +103,7 @@ const SchoolItem: React.FC<Props> = ({ school }) => {
               borderRadius="md"
               overflow="hidden"
             >
-              <MapView schools={[school]} selectedSchool={school} />
+              <MapView school={school} />
             </Box>
           </Box>
         </Collapse>

@@ -1,23 +1,21 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import { NCESSchoolFeatureAttributes } from '@utils/nces';
+import { NCESSchoolFeatureAttributes as Sch } from '@utils/nces';
 import { googleMapsKey } from '@utils/maps';
 
 interface MapViewProps {
-  schools: NCESSchoolFeatureAttributes[];
-  selectedSchool: NCESSchoolFeatureAttributes | null;
+  school: Sch; // Only one school now
 }
 
-const MapView = ({ schools, selectedSchool }: MapViewProps) => {
-  const valid = schools.filter(
-    (s) => s.LAT && s.LON && !isNaN(s.LAT) && !isNaN(s.LON),
-  );
+const MapView = ({ school }: MapViewProps) => {
+  // Check if school has valid coordinates
+  const hasCoords = school?.LAT && school?.LON && !isNaN(school.LAT) && !isNaN(school.LON);
 
-  const center = {
-    lat: selectedSchool?.LAT ?? valid[0]?.LAT ?? 47.6062,
-    lng: selectedSchool?.LON ?? valid[0]?.LON ?? -122.3321,
-  };
+  // Default to Seattle if coordinates are missing
+  const center = hasCoords
+    ? { lat: Number(school.LAT), lng: Number(school.LON) }
+    : { lat: 47.6062, lng: -122.3321 };
 
   return (
     <Box h="100%" w="100%" borderRadius="md" overflow="hidden">
@@ -26,16 +24,14 @@ const MapView = ({ schools, selectedSchool }: MapViewProps) => {
           mapContainerStyle={{ width: '100%', height: '100%' }}
           center={center}
           zoom={12}
-          options={{ gestureHandling: 'cooperative' }} // scroll-wheel no longer zooms
+          options={{ gestureHandling: 'cooperative' }}
         >
-          {valid.map((s) => (
+          {hasCoords && (
             <Marker
-              key={s.NCESSCH}
-              position={{ lat: Number(s.LAT), lng: Number(s.LON) }}
-
-              title={s.NAME ?? ''}
+              position={{ lat: Number(school.LAT), lng: Number(school.LON) }}
+              title={school.NAME ?? ''}
             />
-          ))}
+          )}
         </GoogleMap>
       </LoadScript>
     </Box>
